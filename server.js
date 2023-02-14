@@ -21,13 +21,6 @@ const db = mysql.createConnection(
 );
 
 
-SHOW DATABASES;
-
-
-
-
-
-
 
 // Default response for any other request (Not Found)
 app.use((req, res) => {

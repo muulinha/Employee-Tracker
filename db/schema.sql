@@ -19,7 +19,7 @@ CREATE TABLE roles (
 );
 
 
-CREATE TABLE employee (
+CREATE TABLE employees (
     id INT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
@@ -28,4 +28,8 @@ CREATE TABLE employee (
     FOREIGN KEY (role_id)
     REFERENCES roles (id)
     ON DELETE SET NULL
-)
+    
+    manager_id INT UNSIGNED,
+    INDEX man_ind (manager_id),
+    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
+);
