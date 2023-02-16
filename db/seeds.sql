@@ -4,7 +4,7 @@ INSERT INTO department (name)
 VALUES ('Management'), ('Developers'), ('IT'), ('HR'), ('Intern');
 
 
-INSERT INTO role (name, salary, department_id)
+INSERT INTO role (job_title, salary, department_id)
 VALUES ('General Manager', 450000, 1),('Software Developer', 150000, 2), 
 ('IT Lead', 120000, 3),('HR Specialist', 450000, 4),
 ('Software Developer Intern', 70000, 5);

@@ -75,7 +75,7 @@ async function viewAllrole() {
 async function viewAllemployee() {
   try {
     var results = await db.query(`
-        SELECT employee.id, employee.first_name, employee.last_name, role.salary, role.job_title, department.department_name, managers.first_name AS manager_first_name, managers.last_name AS manager_last_name 
+        SELECT employee.id, employee.first_name, employee.last_name, role.salary, role.job_title, department.name, managers.first_name AS manager_first_name, managers.last_name AS manager_last_name 
         FROM employee 
         LEFT JOIN role ON employee.role_id = role.id 
         LEFT JOIN department ON employee.department_id = department.id 
@@ -106,7 +106,7 @@ async function addDepartment() {
   ]);
   try {
     db.query(
-      `INSERT INTO department (department_name) VALUES ("${department}")`
+      `INSERT INTO department (name) VALUES ("${department}")`
     );
     console.log(`${department} added to department.`);
   } catch (err) {
@@ -120,7 +120,7 @@ async function addRole() {
   let department = await db.query("SELECT * FROM department;");
 
   let departmentList = department.map((department) => {
-    return { name: department.department_name, value: department.id };
+    return { name: department.name, value: department.id };
   });
 
   const { job_title, salary, department_id } = await inquirer.prompt([
@@ -186,7 +186,7 @@ async function addEmployee() {
 
   let department = await db.query("SELECT * FROM department;");
   let departmentList = department.map((department) => {
-    return { name: department.department_name, value: department.id };
+    return { name: department.name, value: department.id };
   });
 
 
