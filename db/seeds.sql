@@ -1,24 +1,18 @@
+USE database_db;
+
 INSERT INTO department (name)
-VALUES ("IT"),
-       ("HR"),
-       ("R&D"),
-       ("Manufaturing");
+VALUES ('Management'), ('Developers'), ('IT'), ('HR'), ('Intern');
 
-INSERT INTO roles (name, salary)
-VALUES ("Intro to JavaScript", 1000),
-       ("Game Design", 20000),
-       ("Linear Algebra", 3000),
-       ("History of the Internet", 41321),
-       ("Machine Learning", 44564),
-       ("Game Design", 1465421 ),
-       ("Intro to JavaScript", 154654);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Joao", "Mateus", 1, 1),
-       ("jorge", "Goeda", 2, 2),
-       ("thiago", "DASdasdas", 1, 1),
-       ("Lucas", "Olaoi", 2),
-       ("Maria", "Test", 3);
+INSERT INTO roles (title, salary, department_id)
+VALUES ('General Manager', 450000, 1),('Software Developer', 150000, 2), 
+('IT Lead', 120000, 3),('HR Specialist', 450000, 4),
+('Software Developer Intern', 70000, 5);
 
+
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ('Mario', 'Ulloa', 1, 1),('Herbie', 'Smith', 2, null),('James', 'Peach', 3, 2),
+('Dwight', 'Howard', 4, null),('Jason', 'Terry', 3, 2),
+('Joe', 'Dirt', 2, 1),('Cheech', 'Chong', 5, null);
 
 

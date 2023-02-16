@@ -24,12 +24,15 @@ CREATE TABLE employees (
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     role_id INT,
+    department_id INT,
     manager_id INT,
+    FOREIGN KEY (manager_id)
+    REFERENCES employees(id)
+    ON DELETE SET NULL,
     FOREIGN KEY (role_id)
-    REFERENCES roles (id)
+    REFERENCES roles(id)
+    ON DELETE SET NULL,
+    FOREIGN KEY (department_id)
+    REFERENCES department(id)
     ON DELETE SET NULL
-    
-    manager_id INT UNSIGNED,
-    INDEX man_ind (manager_id),
-    CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
