@@ -1,9 +1,9 @@
 const inquirer = require("inquirer");
 // require("console.table");
 const util = require("util");
-const db = require("./config/queries");
+const db = require("./config/connection");
 
-const store = require("./config/queries");
+// const store = require("./config/queries");
 db.query = util.promisify(db.query);
 
 // function init() {
@@ -228,28 +228,7 @@ db.query = util.promisify(db.query);
 //   });
 // }
 
-const firstQuestion = [
-  {
-    type: "list",
-    message: "What would you like to do?",
-    choices: [
-      "View all departments",
-      "View all roles",
-      "View all employees",
-      "Add a department",
-      "Add a role",
-      "Add an employee",
-      "Update an employee's role",
-    ],
-    name: "response",
-    validate: function (answer) {
-      if (answer.length < 1) {
-        return console.log("Please select an option and hit return!");
-      }
-      return true;
-    },
-  },
-];
+
 
 const firstQuestion = [
   {
