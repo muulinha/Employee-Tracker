@@ -33,11 +33,11 @@ const firstQuestion = [
 function askFirstQuestion() {
   inquirer.prompt(firstQuestion).then(({ response }) => {
     if (response == "View all departments") {
-      viewAllDepartments();
+      viewAlldepartment();
     } else if (response == "View all roles") {
-      viewAllRoles();
+      viewAllrole();
     } else if (response == "View all employees") {
-      viewAllEmployees();
+      viewAllemployee();
     } else if (response == "Add a department") {
       addDepartment();
     } else if (response == "Add a role") {
@@ -50,9 +50,9 @@ function askFirstQuestion() {
   });
 }
 
-async function viewAllDepartments() {
+async function viewAlldepartment() {
   try {
-    var results = await db.query("SELECT * FROM departments;");
+    var results = await db.query("SELECT * FROM department;");
     console.table(results);
   } catch (err) {
     console.error(err);
@@ -61,9 +61,9 @@ async function viewAllDepartments() {
 }
 
 
-async function viewAllRoles() {
+async function viewAllrole() {
   try {
-    var results = await db.query("SELECT * FROM roles;");
+    var results = await db.query("SELECT * FROM role;");
     console.table(results);
   } catch (err) {
     console.error(err);
@@ -72,14 +72,14 @@ async function viewAllRoles() {
 }
 
 
-async function viewAllEmployees() {
+async function viewAllemployee() {
   try {
     var results = await db.query(`
-        SELECT employees.id, employees.first_name, employees.last_name, roles.salary, roles.job_title, departments.department_name, managers.first_name AS manager_first_name, managers.last_name AS manager_last_name 
-        FROM employees 
-        LEFT JOIN roles ON employees.role_id = roles.id 
-        LEFT JOIN departments ON employees.department_id = departments.id 
-        LEFT JOIN employees managers ON employees.manager_id = managers.id;`);
+        SELECT employee.id, employee.first_name, employee.last_name, role.salary, role.job_title, department.department_name, managers.first_name AS manager_first_name, managers.last_name AS manager_last_name 
+        FROM employee 
+        LEFT JOIN role ON employee.role_id = role.id 
+        LEFT JOIN department ON employee.department_id = department.id 
+        LEFT JOIN employee managers ON employee.manager_id = managers.id;`);
     console.table(results);
   } catch (err) {
     console.error(err);
@@ -106,9 +106,9 @@ async function addDepartment() {
   ]);
   try {
     db.query(
-      `INSERT INTO departments (department_name) VALUES ("${department}")`
+      `INSERT INTO department (department_name) VALUES ("${department}")`
     );
-    console.log(`${department} added to Departments.`);
+    console.log(`${department} added to department.`);
   } catch (err) {
     console.error(err);
   }
@@ -117,9 +117,9 @@ async function addDepartment() {
 
 
 async function addRole() {
-  let departments = await db.query("SELECT * FROM departments;");
+  let department = await db.query("SELECT * FROM department;");
 
-  let departmentList = departments.map((department) => {
+  let departmentList = department.map((department) => {
     return { name: department.department_name, value: department.id };
   });
 
@@ -167,9 +167,9 @@ async function addRole() {
   ]);
   try {
     await db.query(
-      `INSERT INTO roles (job_title, salary, department_id) VALUES ("${job_title}", "${salary}", "${department_id}")`
+      `INSERT INTO role (job_title, salary, department_id) VALUES ("${job_title}", "${salary}", "${department_id}")`
     );
-    console.log(`${job_title} added to Roles.`);
+    console.log(`${job_title} added to role.`);
   } catch (err) {
     console.error(err);
   }
@@ -179,19 +179,19 @@ async function addRole() {
 
 async function addEmployee() {
 
-  let roles = await db.query("SELECT id, job_title FROM roles;");
-  let roleList = roles.map((role) => {
+  let role = await db.query("SELECT id, job_title FROM role;");
+  let roleList = role.map((role) => {
     return { name: role.job_title, value: role.id };
   });
 
-  let departments = await db.query("SELECT * FROM departments;");
-  let departmentList = departments.map((department) => {
+  let department = await db.query("SELECT * FROM department;");
+  let departmentList = department.map((department) => {
     return { name: department.department_name, value: department.id };
   });
 
 
   let managers = await db.query(
-    "SELECT id, first_name, last_name FROM employees;"
+    "SELECT id, first_name, last_name FROM employee;"
   );
 
 
@@ -276,9 +276,9 @@ async function addEmployee() {
 
   try {
     await db.query(
-      `INSERT INTO employees (first_name, last_name, role_id, department_id, manager_id) VALUES ("${first_name}", "${last_name}", "${role_id}", "${department_id}", "${manager_id}");`
+      `INSERT INTO employee (first_name, last_name, role_id, department_id, manager_id) VALUES ("${first_name}", "${last_name}", "${role_id}", "${department_id}", "${manager_id}");`
     );
-    console.log(`${first_name} ${last_name} added to Employees.`);
+    console.log(`${first_name} ${last_name} added to employee.`);
   } catch (err) {
     console.error(err);
   }
@@ -288,12 +288,12 @@ async function addEmployee() {
 
 async function updateEmployee() {
 
-  let employees = await db.query(
-    "SELECT id, first_name, last_name FROM employees;"
+  let employee = await db.query(
+    "SELECT id, first_name, last_name FROM employee;"
   );
 
 
-  let employeesList = employees.map((employee) => {
+  let employeeList = employee.map((employee) => {
     return {
       name: employee.first_name + " " + employee.last_name,
       value: employee.id,
@@ -301,9 +301,9 @@ async function updateEmployee() {
   });
 
 
-  let roles = await db.query("SELECT id, job_title FROM roles;");
+  let role = await db.query("SELECT id, job_title FROM role;");
 
-  let roleList = roles.map((role) => {
+  let roleList = role.map((role) => {
     return { name: role.job_title, value: role.id };
   });
 
@@ -311,7 +311,7 @@ async function updateEmployee() {
     {
       type: "list",
       message: "Choose the employee who's role you wish to update!",
-      choices: employeesList,
+      choices: employeeList,
       name: "employee_id",
       validate: function (answer) {
         if (answer.length < 3) {
@@ -338,7 +338,7 @@ async function updateEmployee() {
 
   try {
     await db.query(
-      `UPDATE employees SET role_id = ("${role_id}") WHERE id = "${employee_id}";`
+      `UPDATE employee SET role_id = ("${role_id}") WHERE id = "${employee_id}";`
     );
     console.log(`${employee_id} updated.`);
   } catch (err) {

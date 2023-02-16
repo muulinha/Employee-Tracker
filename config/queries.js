@@ -4,14 +4,14 @@ class Store {
   constructor(connection) {
     this.connection = connection;
   }
-  getAllDepartments() {
+  getAlldepartment() {
     return this.connection.promise().query("SELECT * from department;");
   }
-  getAllRoles() {
+  getAllrole() {
     return this.connection.promise().query("SELECT * from role;");
   }
 
-  getAllEmployees() {
+  getAllemployee() {
     return this.connection.promise().query("SELECT * from employee;");
   }
   createNewdepartment(departmentName) {
